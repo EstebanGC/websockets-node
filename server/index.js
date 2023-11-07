@@ -1,6 +1,9 @@
 import express from "express"
 import logger from "morgan"
-// import dotenv from "dotenv"
+import dotenv from "dotenv"
+import { createClient } from '@libsql/client/.'
+
+
 import { Server } from 'socket.io'
 import { createServer } from 'node:http'
 
@@ -11,6 +14,12 @@ const server = createServer(app)
 const io = new Server(server, {
 
 })
+
+
+const db = createClient(
+    url = 'libsql://realtime-chat-estebangc.turso.io',
+    authToken = process.env.DB_TOKEN
+)
 
 
 io.on('connection', (socket) => {
