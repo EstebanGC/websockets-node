@@ -1,11 +1,13 @@
 import express from "express"
 import logger from "morgan"
 import dotenv from "dotenv"
-import { createClient } from '@libsql/client/.'
+import { createClient } from '@libsql/client';
 
 
 import { Server } from 'socket.io'
 import { createServer } from 'node:http'
+
+dotenv.config()
 
 const port = process.env.PORT ?? 3000
 
@@ -17,9 +19,12 @@ const io = new Server(server, {
 
 
 const db = createClient(
-    url = 'libsql://realtime-chat-estebangc.turso.io',
-    authToken = process.env.DB_TOKEN
+    {
+        url: 'libsql://realtime-chat-estebangc.turso.io',
+    authToken: process.env.DB_TOKEN
+    }
 )
+
 
 
 io.on('connection', (socket) => {
@@ -41,5 +46,5 @@ app.get('/', (req, res) => [
 ])
 
 server.listen(port, () => {
-    console.log('Server running on port ${port}')
+    console.log(`Server running on port ${port}`)
 })
